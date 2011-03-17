@@ -29,6 +29,7 @@ import org.codehaus.jackson.map.SerializerFactory;
 
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.AbstractView;
@@ -159,12 +160,16 @@ public class MappingJacksonJsonView extends AbstractView {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Object value = filterModel(model);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
 		JsonGenerator generator =
-				objectMapper.getJsonFactory().createJsonGenerator(response.getOutputStream(), encoding);
+				objectMapper.getJsonFactory().createJsonGenerator(bos, encoding);
 		if (prefixJson) {
 			generator.writeRaw("{} && ");
 		}
 		objectMapper.writeValue(generator, value);
+
+		response.setContentLength(bos.size());
+		FileCopyUtils.copy(bos.toByteArray(), response.getOutputStream());
 	}
 
 	/**

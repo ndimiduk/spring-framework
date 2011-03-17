@@ -87,6 +87,7 @@ public class MappingJacksonJsonViewTest {
 
 		String jsonResult = response.getContentAsString();
 		assertTrue(jsonResult.length() > 0);
+		assertEquals(jsonResult.length(), response.getContentLength());
 
 		validateResult();
 	}
@@ -122,7 +123,9 @@ public class MappingJacksonJsonViewTest {
 
 		view.render(model, request, response);
 
-		assertTrue(response.getContentAsString().length() > 0);
+		String jsonResult = response.getContentAsString();
+		assertTrue(jsonResult.length() > 0);
+		assertEquals(jsonResult.length(), response.getContentLength());
 
 		validateResult();
 	}
@@ -143,7 +146,9 @@ public class MappingJacksonJsonViewTest {
 
 		view.render(model, request, response);
 
-		assertTrue(response.getContentAsString().length() > 0);
+		String jsonResult = response.getContentAsString();
+		assertTrue(jsonResult.length() > 0);
+		assertEquals(jsonResult.length(), response.getContentLength());
 		assertEquals("{\"foo\":{\"testBeanSimple\":\"custom\"}}", response.getContentAsString());
 
 		validateResult();
@@ -165,6 +170,7 @@ public class MappingJacksonJsonViewTest {
 
 		String result = response.getContentAsString();
 		assertTrue(result.length() > 0);
+		assertEquals(result.length(), response.getContentLength());
 		assertTrue(result.contains("\"foo\":{\"testBeanSimple\":\"custom\"}"));
 
 		validateResult();
@@ -188,6 +194,7 @@ public class MappingJacksonJsonViewTest {
 
 		String result = response.getContentAsString();
 		assertTrue(result.length() > 0);
+		assertEquals(result.length(), response.getContentLength());
 		assertTrue(result.contains("\"foo\":\"foo\""));
 		assertTrue(result.contains("\"baz\":\"baz\""));
 
